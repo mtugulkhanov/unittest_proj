@@ -12,8 +12,7 @@ def get(array, index, default=None):
     :return: значение по индексу или значение по-умолчанию.
     """
     if index < 0:
-        return default
-
+            return array[index] if 0 <= index < len(array) else default
     return array[index]
 
 
@@ -27,19 +26,13 @@ def my_slice(coll, start=0, end=None):
     Если индекс отрицательный, end указывает смещение от конца списка. По умолчанию равен длине исходного списка.
     :return: массив элементов
     """
-    length = len(coll)
 
+    length = len(coll)
     if length == 0:
         return []
 
-    normalized_end = length if end is None else end
-
-    normalized_start = start
-
-    if normalized_start < 0:
-        if normalized_start < -length:
-            normalized_start = 0
-        else:
-            normalized_start += length
+    normalized_start = start if start >= 0 else max(length + start, 0)
+    normalized_end = end if end is not None else length
+    normalized_end = min(normalized_end, length)
 
     return coll[normalized_start:normalized_end]
